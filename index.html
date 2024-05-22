@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet"
+    />
+    <title>Quiz App</title>
+  </head>
+  <body>
+    <div class="Container">
+      <div class="startingPage">
+        <div class="Logo"></div>
+        <h1 class="Heading">Quiz App</h1>
+        <p class="Quote">Test Your Knowledge With This App</p>
+        <button class="startBtn Active">Play Now!</button>
+      </div>
+      <div class="categorySelection">
+        <h2 class="Title">Categories</h2>
+        <div class="Category">Category 1</div>
+        <div class="Category">Category 2</div>
+        <div class="Category">Category 3</div>
+
+        <button class="startBtn Active">Start</button>
+      </div>
+      <div class="quizPage">
+        <div class="Question">What is the Question?</div>
+        <div class="Options">
+          <div class="Option">Option 1</div>
+          <div class="Option">Option 2</div>
+          <div class="Option">Option 3</div>
+          <div class="Option">Option 4</div>
+        </div>
+        <button class="startBtn Active">Submit</button>
+      </div>
+
+      <div style="display: none;" class="ResultPage">
+        <h1 class="Remark">Amazing!</h1>
+        <h3 class="Direction">You Scored</h3>
+        <h1 class="Points">80</h1>
+        <h2 class="PointsTitle">Points</h2>
+        <button style="margin-bottom: 60px;" class="startBtn Active">Play Again!</button>
+      </div>
+    </div>
+
+    <script src="main.js"></script>
+  </body>
+</html>

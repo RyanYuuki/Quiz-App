@@ -1,0 +1,138 @@
+:root {
+    --clr--accent-color: black;
+    --clr--text--color: white;
+}
+
+* {
+    font-family: Poppins;
+}
+
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background: rgb(255,0,212);
+    background: linear-gradient(87deg, rgb(140, 47, 210) 0%, rgba(82,119,245,1) 100%); 
+}
+
+.Container {
+    display: flex;
+    height: 500px;
+    width: 400px;
+    border: 1px solid transparent;
+    box-shadow: 0 10px 20px 10px rgb(0, 0, 0, 0.5);
+    border-radius: 12px;
+    background-color: white;
+    transition: all 0.5s ease-in-out;
+}
+
+.startingPage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 100%;
+    height: 100%;
+}
+
+.startBtn {
+    background-color: var(--clr--accent-color);
+    color: var(--clr--text--color);
+    width: 40%;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    transition: 0.5s ease-in-out;
+}
+
+.startingPage .Logo {
+    height: 25%;
+    width: 40%;
+    background-image: url(./Assets/Logo.jpg);
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.categorySelection {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 100%;
+    height: 100%;
+    border: 1px solid;
+}
+
+.categorySelection div {
+    display: grid;
+    place-items: center;
+    height: 50px;
+    width: 90%;
+    border-radius: 12px;
+    background-color: var(--clr--accent-color);
+    color: var(--clr--text--color);
+    transition: all 0.3s ease-in-out;
+}
+
+.categorySelection div:hover {
+    transform: scale(1.05);
+    border: 2px solid lightgreen;
+}
+
+.quizPage {
+    display: none;
+}
+
+.Active:active {
+    transform: scale(0.9);
+}
+
+.Active:hover {
+    transform: scale(1.1);
+}
+
+.quizPage, .ResultPage {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 100%;
+    height: 100%;
+    border: 1px solid;
+    border-radius: 12px;
+}
+
+.quizPage .Question {
+    font-weight: 700;
+}
+
+.quizPage .Options {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    height: 40%;
+    width: 90%;
+}
+
+.quizPage .Options div {
+    width: 90%;
+    border-radius: 12px;
+    padding: 10px 20px;
+    text-align: center;
+    background-color: var(--clr--accent-color);
+    color: var(--clr--text--color);
+
+}
+
+.quizPage .startBtn {
+    border: 1px solid;
+}
+
+/* Javascript Classes */
+
+.selected {
+    border: 4px solid lightgreen;
+}
