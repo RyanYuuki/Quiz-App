@@ -3,6 +3,12 @@
     --clr--text--color: white;
 }
 
+@media  only screen and (max-width: 500){
+    .Container {
+        transform: scale(0.85);
+    }
+}
+
 * {
     font-family: Poppins;
 }
