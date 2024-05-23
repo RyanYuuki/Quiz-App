@@ -14,6 +14,11 @@ const Categories = Array.from(document.getElementsByClassName("Category"));
 const Questions = document.getElementsByClassName("Question")[0];
 const OptionsElmt = Array.from(document.getElementsByClassName("Option"));
 const pointsElmt = document.getElementsByClassName("Points")[0];
+
+const progressBar = document.getElementsByClassName("progress-bar")[0];
+const questionCounterElmt = document.getElementsByClassName("questionCounter")[0];
+const progress = document.getElementsByClassName("bar")[0];
+const remarkElmt = document.getElementsByClassName("Remark")[0];
 const Data = {
     0: {
         categoryName: "Computer",
@@ -104,6 +109,8 @@ frontstartBtn.addEventListener('click', () => {
     categorySelectionPage.style.transform = 'translateY(0)';
 });
 mainstartBtn.addEventListener('click', () => {
+    progressBar.style.display = "block";
+    questionCounterElmt.textContent = "Question 1 of 4";
     if (isCategorySelected) {
         categorySelectionPage.style.transform = 'translateY(-100%)';
         quizPage.style.transform = 'translateX(0%)';
@@ -143,6 +150,7 @@ function startQuiz() {
 }
 
 function initializeCategory() {
+  progressBar.style.display = "none";
     Categories.forEach((category, i) => {
         category.innerHTML = Data[i].categoryName;
         category.addEventListener('click' ,() => {
@@ -166,6 +174,8 @@ function initializeCategory() {
 }
 
 function nextQuestion() {
+    questionCounterElmt.textContent = `Question ${index + 1} of 4`;
+    progress.style.width = `${25 * (index + 1)}%`;
     clearSelected(OptionsElmt);
     isOptionSelected = false;
     quizPage.style.scale = "1";
@@ -176,11 +186,16 @@ function nextQuestion() {
 }
 
 function showResult() {
+    if(Points == 25) { remarkElmt.textContent = "Nice!"; }
+    if (Points == 50) { remarkElmt.textContent = "Very Nice!"; }
+    if (Points == 75) { remarkElmt.textContent = "Amazing!";}
+    if (Points == 100) { remarkElmt.textContent = "Damn, Genius!"; }
     resultPage.style.transform = 'translateX(0%)';
     pointsElmt.textContent = Points;
 }
 
 function resetQuiz() {
+    questionCounterElmt.textContent = '';
     Points = 0;
     index = 0;
     questionIndex = 0;
