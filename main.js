@@ -10,6 +10,7 @@ const resultPage = document.getElementsByClassName("ResultPage")[0];
 const Category = document.getElementsByClassName("Category");
 const Questions = document.getElementsByClassName("Question");
 const OptionsElmt = document.getElementsByClassName("Option");
+const pointsElmt = document.getElementsByClassName("Points")[0];
 const Data = {
     0: {
         categoryName: "Computer",
@@ -90,27 +91,46 @@ const Data = {
 let Points = 0;
 let index = 0;
 let questionIndex = 0;
-let isCategorySelected = true;
-let isOptionSelected = true;
+let isCategorySelected = false;
+let isOptionSelected = false;
 let categoryIndex = 0;
 let optionIndex = 0;
+let optionTracker = 0;
 frontstartBtn.addEventListener('click', () => {
-    frontPage.style.display = 'none';
-    categorySelectionPage.style.display = 'flex';
+    frontPage.style.transform = 'translateX(-100%)';
+    categorySelectionPage.style.transform = 'translateY(0)';
 });
 mainstartBtn.addEventListener('click', () => {
-    categorySelectionPage.style.display = 'none';
-    quizPage.style.display = 'flex';
+    if (isCategorySelected) {
+        categorySelectionPage.style.transform = 'translateY(-100%)';
+        quizPage.style.transform = 'translateX(0%)';
+    }
+    else {
+        alert('Select a option will ya?');
+    }
 });
 submitBtn.addEventListener('click', () => {
     index++;
-    if (index >= Data[0].Questions.length) {
-        showResult();
+    if (isOptionSelected) {
+        if (index >= Data[0].Questions.length) {
+            quizPage.style.scale = "0";
+            checkAnswer(optionTracker);
+            setTimeout(() => {
+                showResult();
+            }, 600);
+
+        }
+        else {
+            quizPage.style.scale = "0";
+            checkAnswer(optionTracker);
+            setTimeout(() => {
+                nextQuestion();
+            }, 1000);
+        }
     }
     else {
-        nextQuestion();
+        alert('Select a option will ya?');
     }
-    
 });
 playagainBtn.addEventListener('click', () => {
     resetQuiz();
@@ -125,18 +145,20 @@ function initializeQuiz() {
         Category[i].classList.remove('selected');
         Category[i].innerHTML = Data[i].categoryName;
         Category[i].addEventListener('click', () => {
+            clearSelected(Category);
             Category[i].classList.add('selected');
             categoryIndex = i;
+            isCategorySelected = true;
             Questions[0].textContent = Data[categoryIndex].Questions[index].question;
             for (let i = 0; i < OptionsElmt.length; i++) {
                 OptionsElmt[i].classList.remove('selected');
                 OptionsElmt[i].textContent = Data[categoryIndex].Questions[index].options[i];
                 OptionsElmt[i].addEventListener('click', () => {
+                    isOptionSelected = true;
+                    clearSelected(OptionsElmt);
+                    OptionsElmt[i].classList.add('selected');
                     prevOption = i;
-                    if (isOptionSelected) {
-                        OptionsElmt[i].classList.add('selected');
-                        isOptionSelected = false;
-                    }
+                    optionTracker = prevOption;
                 });
             }
         });
@@ -144,41 +166,48 @@ function initializeQuiz() {
 }
 
 function nextQuestion() {
-    isOptionSelected = true;
+    isOptionSelected = false;
+    quizPage.style.scale = "1";
     Questions[0].textContent = Data[categoryIndex].Questions[index].question;
     for (let i = 0; i < OptionsElmt.length; i++) {
         OptionsElmt[i].classList.remove('selected');
         OptionsElmt[i].textContent = Data[categoryIndex].Questions[index].options[i];
-        OptionsElmt[i].addEventListener('click', () => {
-            if (isOptionSelected)
-                OptionsElmt[i].classList.add('selected');
-                isOptionSelected = false;
-        });
     }
 }
 
 function showResult() {
-    quizPage.style.display = 'none';
-    resultPage.style.display = 'flex';
+    resultPage.style.transform = 'translateX(0%)';
+    pointsElmt.textContent = Points;
 }
 
 function resetQuiz() {
     Points = 0;
     index = 0;
     questionIndex = 0;
-    isCategorySelected = true;
-    isOptionSelected = true;
     categoryIndex = 0;
     optionIndex = 0;
-    for (let i = 0; i < Category.length; i++) {
-        Category[i].classList.remove('selected');
+    isCategorySelected = false;
+    isOptionSelected = false;
+    resultPage.style.transform = 'translateX(100%)';
+    frontPage.style.transform = 'translateX(0%)';
+    quizPage[0].style.
+    quizPage.style.scale = '1';
+    quizPage.style.transform = 'translateX(100%)';
+    categorySelectionPage.style.transform = 'translateY(-100%)';    
+    startQuiz();
+}
+
+function clearSelected(Category) {
+    for (let j = 0; j < Category.length; j++) {
+        Category[j].classList.remove('selected');
     }
-    for (let i = 0; i < OptionsElmt.length; i++) {
-        OptionsElmt[i].classList.remove('selected');
+}
+
+function checkAnswer(optionTracker) {
+    if (OptionsElmt[optionTracker].textContent == Data[categoryIndex].Questions[index - 1].answer) {
+        Points += 25;
+        console.log(Points);
     }
-    resultPage.style.display = 'none';
-    frontPage.style.display = 'flex';
-    startQuiz();    
 }
 
 startQuiz();
