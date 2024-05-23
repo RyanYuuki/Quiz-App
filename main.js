@@ -113,18 +113,20 @@ submitBtn.addEventListener('click', () => {
     index++;
     if (isOptionSelected) {
         if (index >= Data[0].Questions.length) {
-            quizPage.style.scale = "0";
             checkAnswer(optionTracker);
             setTimeout(() => {
+                quizPage.style.scale = "0";
                 showResult();
             }, 600);
 
         }
         else {
-            quizPage.style.scale = "0";
             checkAnswer(optionTracker);
             setTimeout(() => {
-                nextQuestion();
+                quizPage.style.scale = "0";
+                setTimeout( () => {
+                    nextQuestion();
+                }, 1000); 
             }, 1000);
         }
     }
@@ -166,6 +168,7 @@ function initializeQuiz() {
 }
 
 function nextQuestion() {
+    clearSelected(OptionsElmt);
     isOptionSelected = false;
     quizPage.style.scale = "1";
     Questions[0].textContent = Data[categoryIndex].Questions[index].question;
@@ -190,7 +193,6 @@ function resetQuiz() {
     isOptionSelected = false;
     resultPage.style.transform = 'translateX(100%)';
     frontPage.style.transform = 'translateX(0%)';
-    quizPage[0].style.
     quizPage.style.scale = '1';
     quizPage.style.transform = 'translateX(100%)';
     categorySelectionPage.style.transform = 'translateY(-100%)';    
@@ -200,13 +202,18 @@ function resetQuiz() {
 function clearSelected(Category) {
     for (let j = 0; j < Category.length; j++) {
         Category[j].classList.remove('selected');
+        Category[j].classList.remove('wrongAnswer');
+        Category[j].classList.remove('correctAnswer');
     }
 }
 
 function checkAnswer(optionTracker) {
     if (OptionsElmt[optionTracker].textContent == Data[categoryIndex].Questions[index - 1].answer) {
         Points += 25;
-        console.log(Points);
+        OptionsElmt[optionTracker].classList.add('correctAnswer');
+    }
+    else {
+        OptionsElmt[optionTracker].classList.add('wrongAnswer');
     }
 }
 

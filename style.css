@@ -150,5 +150,13 @@ body {
 /* Javascript Classes */
 
 .selected {
+    border: 4px solid lightskyblue;
+}
+
+.correctAnswer {
     border: 4px solid lightgreen;
+}
+
+.wrongAnswer {
+    border: 4px solid tomato;
 }
