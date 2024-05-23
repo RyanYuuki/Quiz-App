@@ -106,7 +106,7 @@ mainstartBtn.addEventListener('click', () => {
         quizPage.style.transform = 'translateX(0%)';
     }
     else {
-        alert('Select a option will ya?');
+        alert('Select an Category!');
     }
 });
 submitBtn.addEventListener('click', () => {
@@ -131,7 +131,7 @@ submitBtn.addEventListener('click', () => {
         }
     }
     else {
-        alert('Select a option will ya?');
+        alert('Select an Option!');
     }
 });
 playagainBtn.addEventListener('click', () => {
@@ -195,7 +195,9 @@ function resetQuiz() {
     frontPage.style.transform = 'translateX(0%)';
     quizPage.style.scale = '1';
     quizPage.style.transform = 'translateX(100%)';
-    categorySelectionPage.style.transform = 'translateY(-100%)';    
+    categorySelectionPage.style.transform = 'translateY(-100%)';
+    clearSelected(OptionsElmt);
+    clearSelected(Category);    
     startQuiz();
 }
 
