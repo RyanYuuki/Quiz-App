@@ -1,15 +1,18 @@
-const frontstartBtn = document.getElementsByClassName('startBtn')[0];
-const mainstartBtn = document.getElementsByClassName('startBtn')[1];
-const submitBtn = document.getElementsByClassName('startBtn')[2];
-const playagainBtn = document.getElementsByClassName('startBtn')[3];
+const startBtn = document.getElementsByClassName("startBtn");
+const frontstartBtn = startBtn[0];
+const mainstartBtn = startBtn[1];
+const submitBtn = startBtn[2];
+const playagainBtn = startBtn[3];
+
 const Container = document.getElementsByClassName("Container")[0];
 const frontPage = document.getElementsByClassName("startingPage")[0];
 const categorySelectionPage = document.getElementsByClassName("categorySelection")[0];
 const quizPage = document.getElementsByClassName("quizPage")[0];
 const resultPage = document.getElementsByClassName("ResultPage")[0];
-const Category = document.getElementsByClassName("Category");
-const Questions = document.getElementsByClassName("Question");
-const OptionsElmt = document.getElementsByClassName("Option");
+
+const Categories = Array.from(document.getElementsByClassName("Category"));
+const Questions = document.getElementsByClassName("Question")[0];
+const OptionsElmt = Array.from(document.getElementsByClassName("Option"));
 const pointsElmt = document.getElementsByClassName("Points")[0];
 const Data = {
     0: {
@@ -113,7 +116,7 @@ submitBtn.addEventListener('click', () => {
     index++;
     if (isOptionSelected) {
         if (index >= Data[0].Questions.length) {
-            checkAnswer(optionTracker);
+            checkAnswer(optionIndex);
             setTimeout(() => {
                 quizPage.style.scale = "0";
                 showResult();
@@ -121,12 +124,10 @@ submitBtn.addEventListener('click', () => {
 
         }
         else {
-            checkAnswer(optionTracker);
+            checkAnswer(optionIndex);
             setTimeout(() => {
                 quizPage.style.scale = "0";
-                setTimeout( () => {
-                    nextQuestion();
-                }, 1000); 
+                setTimeout(nextQuestion, 1000);
             }, 1000);
         }
     }
@@ -138,42 +139,38 @@ playagainBtn.addEventListener('click', () => {
     resetQuiz();
 });
 function startQuiz() {
-    initializeQuiz();
+    initializeCategory();
 }
 
-function initializeQuiz() {
-    let prevOption = 0;
-    for (let i = 0; i < Category.length; i++) {
-        Category[i].classList.remove('selected');
-        Category[i].innerHTML = Data[i].categoryName;
-        Category[i].addEventListener('click', () => {
-            clearSelected(Category);
-            Category[i].classList.add('selected');
+function initializeCategory() {
+    Categories.forEach((category, i) => {
+        category.innerHTML = Data[i].categoryName;
+        category.addEventListener('click' ,() => {
+            clearSelected(Categories);
+            category.classList.add('selected');
             categoryIndex = i;
             isCategorySelected = true;
-            Questions[0].textContent = Data[categoryIndex].Questions[index].question;
-            for (let i = 0; i < OptionsElmt.length; i++) {
-                OptionsElmt[i].classList.remove('selected');
-                OptionsElmt[i].textContent = Data[categoryIndex].Questions[index].options[i];
-                OptionsElmt[i].addEventListener('click', () => {
-                    isOptionSelected = true;
+            OptionsElmt.forEach((option, i) => {
+                Questions.textContent = Data[categoryIndex].Questions[index].question;
+                option.textContent = Data[categoryIndex].Questions[index].options[i];
+                option.addEventListener('click', () => {
                     clearSelected(OptionsElmt);
-                    OptionsElmt[i].classList.add('selected');
-                    prevOption = i;
-                    optionTracker = prevOption;
+                    option.classList.add('selected');
+                    optionIndex = i;
+                    isOptionSelected = true;
+                    console.log(optionIndex);
                 });
-            }
+            });
         });
-    }
+    });
 }
 
 function nextQuestion() {
     clearSelected(OptionsElmt);
     isOptionSelected = false;
     quizPage.style.scale = "1";
-    Questions[0].textContent = Data[categoryIndex].Questions[index].question;
+    Questions.textContent = Data[categoryIndex].Questions[index].question;
     for (let i = 0; i < OptionsElmt.length; i++) {
-        OptionsElmt[i].classList.remove('selected');
         OptionsElmt[i].textContent = Data[categoryIndex].Questions[index].options[i];
     }
 }
@@ -197,25 +194,23 @@ function resetQuiz() {
     quizPage.style.transform = 'translateX(100%)';
     categorySelectionPage.style.transform = 'translateY(-100%)';
     clearSelected(OptionsElmt);
-    clearSelected(Category);    
+    clearSelected(Categories);
     startQuiz();
 }
 
 function clearSelected(Category) {
     for (let j = 0; j < Category.length; j++) {
-        Category[j].classList.remove('selected');
-        Category[j].classList.remove('wrongAnswer');
-        Category[j].classList.remove('correctAnswer');
+        Category[j].classList.remove('selected','wrongAnswer', 'correctAnswer');
     }
 }
 
-function checkAnswer(optionTracker) {
-    if (OptionsElmt[optionTracker].textContent == Data[categoryIndex].Questions[index - 1].answer) {
+function checkAnswer(optionIndex) {
+    if (OptionsElmt[optionIndex].textContent == Data[categoryIndex].Questions[index-1].answer) {
         Points += 25;
-        OptionsElmt[optionTracker].classList.add('correctAnswer');
+        OptionsElmt[optionIndex].classList.add('correctAnswer');
     }
     else {
-        OptionsElmt[optionTracker].classList.add('wrongAnswer');
+        OptionsElmt[optionIndex].classList.add('wrongAnswer');
     }
 }
 
